@@ -1,0 +1,818 @@
+{
+    "Double.Flashstep[←→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "Double.Flashstep[←↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "Double.Flashstep[←↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ],
+    "Double.Flashstep[→↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ],
+    "Double.Flashstep[→←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "Double.Flashstep[→↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "Double.Flashstep[↓↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "Double.Flashstep[↓←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "Double.Flashstep[↓→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "Double.Flashstep[↑→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "Double.Flashstep[↑←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "Double.Flashstep[↑↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ],
+    "x.Double.Flashstep[←→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "x.Double.Flashstep[←↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "x.Double.Flashstep[←↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ],
+    "x.Double.Flashstep[→↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ],
+    "x.Double.Flashstep[→←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "x.Double.Flashstep[→↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "x.Double.Flashstep[↓↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "x.Double.Flashstep[↓←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "x.Double.Flashstep[↓→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "x.Double.Flashstep[↑→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "x.Double.Flashstep[↑←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "x.Double.Flashstep[↑↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 100,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 50,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "S"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ]
+}

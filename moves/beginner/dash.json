@@ -1,0 +1,42 @@
+{
+    "Dash[↑]": [
+        {
+            "max.delay": 0,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        }
+    ],
+    "Dash[→]": [
+        {
+            "max.delay": 0,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        }
+    ],
+    "Dash[←]": [
+        {
+            "max.delay": 0,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        }
+    ],
+    "Dash[↓]": [
+        {
+            "max.delay": 0,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        }
+    ]
+}

@@ -1,0 +1,210 @@
+{
+    "Flashstep[↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "Flashstep[↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "Flashstep[←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "Flashstep[→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "x.Flashstep[↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 80,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "x.Flashstep[↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 80,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "x.Flashstep[←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 80,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ],
+    "x.Flashstep[→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 80,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "S"
+        }
+    ]
+}

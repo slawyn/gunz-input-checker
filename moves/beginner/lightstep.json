@@ -1,0 +1,74 @@
+{
+    "Lightstep[↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        }
+    ],
+    "Lightstep[→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        }
+    ],
+    "Lightstep[←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        }
+    ],
+    "Lightstep[↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        }
+    ]
+}

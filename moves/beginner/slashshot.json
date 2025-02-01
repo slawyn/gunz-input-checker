@@ -1,0 +1,218 @@
+{
+    "Slashshot[↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "W1|W2"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "Slashshot[↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "W1|W2"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "Slashshot[←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "W1|W2"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "Slashshot[→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "max.delay": 50,
+            "input": "W1|W2"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "x.Slashshot[↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 90,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "x.Slashshot[↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 90,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "x.Slashshot[←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 90,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ],
+    "x.Slashshot[→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "→"
+        },
+        {
+            "max.delay": 200,
+            "input": "→"
+        },
+        {
+            "max.delay": 90,
+            "input": "W1|W2"
+        },
+        {
+            "max.delay": 100,
+            "input": "A"
+        },
+        {
+            "min.delay": 200,
+            "max.delay": 400,
+            "input": "S"
+        }
+    ]
+}

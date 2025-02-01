@@ -1,0 +1,167 @@
+{
+    "Butterfly": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 400,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        }
+    ],
+    "Butterfly[←]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 300,
+            "input": "←"
+        },
+        {
+            "max.delay": 200,
+            "input": "←"
+        },
+        {
+            "max.delay": 400,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        }
+    ],
+    "Butterfly[↑]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 300,
+            "input": "↑"
+        },
+        {
+            "max.delay": 200,
+            "input": "↑"
+        },
+        {
+            "max.delay": 400,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        }
+    ],
+    "Butterfly[↓]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 300,
+            "input": "↓"
+        },
+        {
+            "max.delay": 200,
+            "input": "↓"
+        },
+        {
+            "max.delay": 400,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        }
+    ],
+    "Butterfly[→]": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 300,
+            "input": "→"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "→"
+        },
+        {
+            "max.delay": 400,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        }
+    ],
+    "2x.Butterfly": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        },
+        {
+            "max.delay": 400,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 200,
+            "input": "B"
+        }
+    ],
+    "3x.Butterfly": [
+        {
+            "max.delay": 0,
+            "input": "Jump"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        },
+        {
+            "min.delay": 10,
+            "max.delay": 100,
+            "input": "B"
+        }
+    ]
+}

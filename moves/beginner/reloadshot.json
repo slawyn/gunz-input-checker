@@ -1,0 +1,28 @@
+{
+    "Reloadshot": [
+        {
+            "max.delay": 0,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "R"
+        },
+        {
+            "max.delay": 200,
+            "input": "W2"
+        },
+        {
+            "max.delay": 300,
+            "input": "A"
+        },
+        {
+            "max.delay": 200,
+            "input": "R"
+        },
+        {
+            "max.delay": 200,
+            "input": "W1"
+        }
+    ]
+}
