@@ -1,7 +1,7 @@
 {
     "Lightstep[↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -19,7 +19,7 @@
     ],
     "Lightstep[→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -37,7 +37,7 @@
     ],
     "Lightstep[←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -55,7 +55,7 @@
     ],
     "Lightstep[↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {

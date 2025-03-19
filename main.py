@@ -4,7 +4,7 @@ import os
 from pynput import keyboard, mouse
 from glob import glob
 
-from inputs import InputBuffer, AutomatedMove, Move, MoveInput
+from inputs import InputBuffer, AutomatedMove, Move, MoveInput, Input
 from gui import Application, Entries
 import utils
 
@@ -15,12 +15,12 @@ class Handler:
         self.mappings = mappings
         self.reverse_mappings = {v: k for k, v in mappings.items()}
         self.moves = moves
-        self.buffer = InputBuffer("")
-        self.buffer.reset()
+        self.buffer = InputBuffer()
         self.available_moves = self.moves[:]
         self.automated_input = None
         self.kb_controller = keyboard.Controller()
         self.ms_controller = mouse.Controller()
+        self.moves_counter = 0
 
     def find_move(self, name):
         for move in self.moves:
@@ -29,44 +29,32 @@ class Handler:
 
     def run(self):
         ts = utils.get_timestamp_ms()
-        if self.buffer.has_inputs():
-            entries = Entries()
-            for input in self.buffer.get_inputs():
-                entries.add(input.get_key(), str(input.get_delay()))
+        self.process_automated_inputs(ts)
+        return self.process_manual_inputs(ts)
 
-            is_input_correct = False
+    def create_entries(self, original, derived):
+        entries = Entries()
+        for input in original:
+            entries.add_normal(input.get_key(), str(input.get_delay()))
+
+        for input in derived:
+            entries.add_special(input.get_key(), str(input.get_delay()))
+
+        return entries
+
+    def process_manual_inputs(self, ts):
+        original = []
+        derived = []
+        if input := self.buffer.pop_input():
+            original.append(input)
             for move in self.moves:
-                if move in self.available_moves:
-                    status = self.buffer.is_input_correct(move)
-                    if status == InputBuffer.MOVE:
-                        self.available_moves.remove(move)
-                        is_input_correct = True
-                        entries.set_name(move.name)
-                    elif status == InputBuffer.ACCEPTED:
-                        is_input_correct = True
-                    else:
-                        self.available_moves.remove(move)
+                if self.buffer.is_move_executed(input, move):
+                    self.moves_counter += 1
+                    derived.append(Input(f"[{self.moves_counter}]{move.name}", move.get_accumulated_delay()))
 
-            if not is_input_correct:
-                self.buffer.reset()
-                self.available_moves = self.moves[:]
-            else:
-                self.buffer.accept()
+        return self.create_entries(original, derived)
 
-            return entries
-
-        # Can any moves still be executed?
-        is_time_remaining = False
-        for move in self.moves:
-            if move in self.available_moves and self.buffer.is_time_remaining(ts, move):
-                is_time_remaining = True
-            else:
-                move.reset()
-
-        if not is_time_remaining:
-            self.buffer.reset()
-            self.available_moves = self.moves[:]
-
+    def process_automated_inputs(self, ts):
         if self.automated_input:
             if self.automated_input.is_done():
                 self.automated_input = None
@@ -99,8 +87,7 @@ class Handler:
         else:
             print(ts, key)
             if key == "+":
-                self.automated_input = AutomatedMove("Automated",
-                                                     self.find_move("Reloadshot").inputs)
+                self.automated_input = AutomatedMove("Automated", self.find_move("Reloadshot").inputs)
 
         if key == keyboard.Key.esc:
             self.running = False
@@ -133,13 +120,10 @@ def load_moves(filenames):
     for filename in filenames:
         print(filename)
         for name, values in utils.load_json(filename).items():
-            move = Move(name, [MoveInput(input["input"], input["max.delay"], input["min.delay"] if "min.delay" in input else 0) for input in values])
+            move = Move(name, [MoveInput(input["input"], input["max.delay"] if "max.delay" in input else 2**33, input["min.delay"] if "min.delay" in input else 0) for input in values])
             moves.append(move)
+            print(move)
 
-    for move in moves:
-        print(move.name)
-        for input in move.inputs:
-            print(f"  {input}")
     return moves
 
 

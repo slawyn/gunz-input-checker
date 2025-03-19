@@ -1,1 +1,3 @@
-python %~dp0/main.py				 
+pushd %~dp0
+python %~dp0/main.py
+popd

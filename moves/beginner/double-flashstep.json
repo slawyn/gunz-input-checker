@@ -1,7 +1,7 @@
 {
     "Double.Flashstep[←→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -35,7 +35,7 @@
     ],
     "Double.Flashstep[←↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -69,7 +69,7 @@
     ],
     "Double.Flashstep[←↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -103,7 +103,7 @@
     ],
     "Double.Flashstep[→↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -137,7 +137,7 @@
     ],
     "Double.Flashstep[→←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -171,7 +171,7 @@
     ],
     "Double.Flashstep[→↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -205,7 +205,7 @@
     ],
     "Double.Flashstep[↓↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -239,7 +239,7 @@
     ],
     "Double.Flashstep[↓←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -273,7 +273,7 @@
     ],
     "Double.Flashstep[↓→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -307,7 +307,7 @@
     ],
     "Double.Flashstep[↑→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -341,7 +341,7 @@
     ],
     "Double.Flashstep[↑←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -375,7 +375,7 @@
     ],
     "Double.Flashstep[↑↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -409,7 +409,7 @@
     ],
     "x.Double.Flashstep[←→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -443,7 +443,7 @@
     ],
     "x.Double.Flashstep[←↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -477,7 +477,7 @@
     ],
     "x.Double.Flashstep[←↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -511,7 +511,7 @@
     ],
     "x.Double.Flashstep[→↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -545,7 +545,7 @@
     ],
     "x.Double.Flashstep[→←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -579,7 +579,7 @@
     ],
     "x.Double.Flashstep[→↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -613,7 +613,7 @@
     ],
     "x.Double.Flashstep[↓↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -647,7 +647,7 @@
     ],
     "x.Double.Flashstep[↓←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -681,7 +681,7 @@
     ],
     "x.Double.Flashstep[↓→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -715,7 +715,7 @@
     ],
     "x.Double.Flashstep[↑→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -749,7 +749,7 @@
     ],
     "x.Double.Flashstep[↑←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -783,7 +783,7 @@
     ],
     "x.Double.Flashstep[↑↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {

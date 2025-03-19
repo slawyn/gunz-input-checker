@@ -1,7 +1,7 @@
 {
     "Flashstep[↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -27,7 +27,7 @@
     ],
     "Flashstep[↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -53,7 +53,7 @@
     ],
     "Flashstep[←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -79,7 +79,7 @@
     ],
     "Flashstep[→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -105,7 +105,7 @@
     ],
     "x.Flashstep[↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -131,7 +131,7 @@
     ],
     "x.Flashstep[↑]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -157,7 +157,7 @@
     ],
     "x.Flashstep[←]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -183,7 +183,7 @@
     ],
     "x.Flashstep[→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {

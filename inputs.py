@@ -39,7 +39,8 @@ class Move:
     def __init__(self, name, inputs=[]):
         self.name = name
         self.inputs = inputs
-        self.executed = 0
+        self.next = 0
+        self.accumulated_delay = 0
 
     def has_inputs(self):
         return len(self.inputs) > 0
@@ -48,21 +49,34 @@ class Move:
         return self.inputs
 
     def execute(self, input):
-        if self.inputs[self.executed].is_executed(input):
-            self.executed += 1
-            return True
+        if self.next == 0:
+            if self.inputs[0].is_executed(input):
+                self.accumulated_delay = 0
+                self.next += 1
+                return True
+            return False
 
-        self.executed = 0
-        return False
+        elif self.next < len(self.inputs) and self.inputs[self.next].is_executed(input):
+            self.next += 1
+            self.accumulated_delay += input.delay
+            return True
+        else:
+            self.next = 0
+            return self.execute(input)
+
+    def get_accumulated_delay(self):
+        return self.accumulated_delay
 
     def is_executed(self):
-        return self.executed == len(self.inputs)
+        return self.next == len(self.inputs)
 
     def reset(self):
-        self.executed = 0
+        self.next = 0
 
     def __str__(self):
-        return " + ".join([str(input) for input in self.inputs])
+        out = self.name + ":\n"
+        out += " + ".join([str(input) for input in self.inputs])
+        return out
 
 
 class AutomatedMove:
@@ -99,52 +113,29 @@ class AutomatedMove:
 
 
 class InputBuffer:
-    WRONG = 0
-    ACCEPTED = 1
-    MOVE = 2
 
-    def __init__(self, name):
-        self.name = name
-        self.pending_inputs = []
+    def __init__(self):
+        self.name = ""
+        self.pending = []
         self.timestamp = 0
-        self.accepted_count = 0
 
     def add(self, key, ts):
-        if len(self.pending_inputs) > 0:
-            delay = ts - self.timestamp
-        else:
-            delay = 0
-
-        self.pending_inputs.append(Input(key, delay))
+        delay = ts - self.timestamp
         self.timestamp = ts
+        self.pending.append(Input(key, delay))
 
-    def accept(self):
-        self.accepted_count += 1
+    def pop_input(self):
+        if self.pending:
+            return self.pending.pop(0)
+        return []
 
-    def has_inputs(self):
-        return self.accepted_count < len(self.pending_inputs)
-
-    def is_input_correct(self, move):
-        input = self.pending_inputs[self.accepted_count]
+    def is_move_executed(self, input, move):
         if move.execute(input):
             if move.is_executed():
                 move.reset()
-                return InputBuffer.MOVE
-            return InputBuffer.ACCEPTED
+                return True
 
-        move.reset()
-        return InputBuffer.WRONG
-
-    def is_time_remaining(self, ts, move):
-        delay = ts - self.timestamp
-        return delay < move.inputs[self.accepted_count].max_delay
-
-    def reset(self):
-        self.accepted_count = 0
-        self.pending_inputs = []
-
-    def get_inputs(self):
-        return self.pending_inputs
+        return False
 
     def __str__(self):
-        return " + ".join([str(input) for input in (self.pending_inputs)])
+        return " + ".join([str(input) for input in (self.pending)])

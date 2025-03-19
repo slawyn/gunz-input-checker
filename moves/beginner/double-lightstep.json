@@ -1,7 +1,7 @@
 {
     "Double.Lightstep[→↑]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -27,7 +27,7 @@
     ],
     "Double.Lightstep[→↓]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -53,7 +53,7 @@
     ],
     "Double.Lightstep[→←]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -79,7 +79,7 @@
     ],
     "Double.Lightstep[←→]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -105,7 +105,7 @@
     ],
     "Double.Lightstep[←↓]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -131,7 +131,7 @@
     ],
     "Double.Lightstep[←↑]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -157,7 +157,7 @@
     ],
     "Double.Lightstep[↑←]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -183,7 +183,7 @@
     ],
     "Double.Lightstep[↑→]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -209,7 +209,7 @@
     ],
     "Double.Lightstep[↑↓]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -235,7 +235,7 @@
     ],
     "Double.Lightstep[↓↑]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -261,7 +261,7 @@
     ],
     "Double.Lightstep[↓→]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {
@@ -287,7 +287,7 @@
     ],
     "Double.Lightstep[↓←]": [
         {
-            "max.delay": 0,
+           
             "input": "Jump"
         },
         {

@@ -1,7 +1,6 @@
 {
     "Dash[↑]": [
         {
-            "max.delay": 0,
             "input": "↑"
         },
         {
@@ -11,7 +10,6 @@
     ],
     "Dash[→]": [
         {
-            "max.delay": 0,
             "input": "→"
         },
         {
@@ -21,7 +19,6 @@
     ],
     "Dash[←]": [
         {
-            "max.delay": 0,
             "input": "←"
         },
         {
@@ -31,7 +28,6 @@
     ],
     "Dash[↓]": [
         {
-            "max.delay": 0,
             "input": "↓"
         },
         {

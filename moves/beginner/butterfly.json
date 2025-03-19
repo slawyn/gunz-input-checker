@@ -1,7 +1,6 @@
 {
     "Butterfly": [
         {
-            "max.delay": 0,
             "input": "Jump"
         },
         {
@@ -16,7 +15,6 @@
     ],
     "Butterfly[←]": [
         {
-            "max.delay": 0,
             "input": "Jump"
         },
         {
@@ -39,7 +37,6 @@
     ],
     "Butterfly[↑]": [
         {
-            "max.delay": 0,
             "input": "Jump"
         },
         {
@@ -62,7 +59,7 @@
     ],
     "Butterfly[↓]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -85,7 +82,7 @@
     ],
     "Butterfly[→]": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -109,7 +106,7 @@
     ],
     "2x.Butterfly": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
@@ -133,11 +130,12 @@
     ],
     "3x.Butterfly": [
         {
-            "max.delay": 0,
+            
             "input": "Jump"
         },
         {
-            "max.delay": 300,
+            "min.delay": 10,
+            "max.delay": 20,
             "input": "A"
         },
         {
@@ -146,21 +144,21 @@
             "input": "B"
         },
         {
-            "max.delay": 300,
+            "max.delay": 290,
             "input": "A"
         },
         {
             "min.delay": 10,
-            "max.delay": 100,
+            "max.delay": 50,
             "input": "B"
         },
         {
-            "max.delay": 300,
+            "max.delay": 280,
             "input": "A"
         },
         {
             "min.delay": 10,
-            "max.delay": 100,
+            "max.delay": 50,
             "input": "B"
         }
     ]
