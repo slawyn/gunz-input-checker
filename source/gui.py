@@ -85,7 +85,7 @@ class RectangleWidget(QWidget):
 
 class Gui(QMainWindow):
     SPACING = 0
-    MAX_WIDGET_COUNT = 12
+    MAX_WIDGET_COUNT = 15
 
     def __init__(self, handler):
         super().__init__()
@@ -155,7 +155,7 @@ class Gui(QMainWindow):
         # Set the window's position to the left screen
         x = screen_geometry.x()  # Left screen's x-coordinate
         y = screen_geometry.y()  # Top of the screen
-        self.setGeometry(x, y, 800, 600)  # Adjust width and height as needed
+        self.setGeometry(x, y, 900, 600)  # Adjust width and height as needed
 
     def add_rectangle(self, normals, specials):
         if specials:

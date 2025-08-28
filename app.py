@@ -4,9 +4,9 @@ import os
 from pynput import keyboard, mouse
 from glob import glob
 
-from inputs import InputBuffer, AutomatedMove, Move, MoveInput, Input
-from gui import Application, Entries
-import utils
+from source.inputs import InputBuffer, AutomatedMove, Move, MoveInput, Input
+from source.gui import Application, Entries
+import source.utils as utils
 
 
 class Handler:

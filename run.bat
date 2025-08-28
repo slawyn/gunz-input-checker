@@ -1,3 +1,3 @@
 pushd %~dp0
-python %~dp0/main.py
+python %~dp0/app.py
 popd
