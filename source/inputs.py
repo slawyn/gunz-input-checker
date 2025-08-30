@@ -119,12 +119,16 @@ class InputBuffer:
         self.pending = []
         self.timestamp = 0
 
+    def clear(self):
+        self.pending = []
+        self.timestamp = 0
+
     def add(self, key, ts):
         delay = ts - self.timestamp
         self.timestamp = ts
         self.pending.append(Input(key, delay))
 
-    def pop_input(self):
+    def pop(self):
         if self.pending:
             return self.pending.pop(0)
         return []

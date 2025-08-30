@@ -5,11 +5,13 @@ from pynput import keyboard, mouse
 from glob import glob
 
 from source.inputs import InputBuffer, AutomatedMove, Move, MoveInput, Input
-from source.gui import Application, Entries
+from source.gui.gui import GuiApplication
+from source.gui.gui import GuiHandler
+from source.gui.entry import Entries 
 import source.utils as utils
 
 
-class Handler:
+class Handler(GuiHandler):
     def __init__(self, mappings, moves):
         self.running = True
         self.mappings = mappings
@@ -21,6 +23,7 @@ class Handler:
         self.kb_controller = keyboard.Controller()
         self.ms_controller = mouse.Controller()
         self.moves_counter = 0
+        self.clear = False
 
     def find_move(self, name):
         for move in self.moves:
@@ -40,12 +43,15 @@ class Handler:
         for input in derived:
             entries.add_special(input.get_key(), str(input.get_delay()))
 
-        return entries
+        if self.clear:
+            self.clear = False
+            return entries, True
+        return entries, False
 
     def process_manual_inputs(self, ts):
         original = []
         derived = []
-        if input := self.buffer.pop_input():
+        if input := self.buffer.pop():
             original.append(input)
             for move in self.moves:
                 if self.buffer.is_move_executed(input, move):
@@ -86,10 +92,15 @@ class Handler:
             self.buffer.add(self.mappings[key], ts)
         else:
             print(ts, key)
-            if key == "+":
-                self.automated_input = AutomatedMove("Automated", self.find_move("Reloadshot").inputs)
+            # if key == "+":
+            #     self.automated_input = AutomatedMove("Automated", self.find_move("Reloadshot").inputs)
 
-        if key == keyboard.Key.esc:
+        if key == "+":
+            self.buffer.clear()
+            self.clear = True
+
+        if key == "-":
+        # if key == keyboard.Key.esc:
             self.running = False
 
     def on_press(self, key):
@@ -138,7 +149,7 @@ if __name__ == "__main__":
         keyboard.Key.space: "R",
         keyboard.Key.caps_lock: "S",
         mouse.Button.left: "A",
-        mouse.Button.right: "Jump",
+        mouse.Button.right: "J",
         mouse.Button.x2: "B",
         mouse.Button.middle: "G"
     }
@@ -150,7 +161,7 @@ if __name__ == "__main__":
     keyboard_thread.start()
     mouse_thread.start()
 
-    app = Application(sys.argv, handler)
+    app = GuiApplication(sys.argv, handler)
     app.start()
 
     keyboard_thread.join()

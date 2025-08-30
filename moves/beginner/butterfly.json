@@ -1,7 +1,7 @@
 {
     "Butterfly": [
         {
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -15,7 +15,7 @@
     ],
     "Butterfly[←]": [
         {
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 300,
@@ -37,7 +37,7 @@
     ],
     "Butterfly[↑]": [
         {
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 300,
@@ -60,7 +60,7 @@
     "Butterfly[↓]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 300,
@@ -83,7 +83,7 @@
     "Butterfly[→]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 300,
@@ -107,7 +107,7 @@
     "2x.Butterfly": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 300,
@@ -131,7 +131,7 @@
     "3x.Butterfly": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "min.delay": 10,

@@ -2,7 +2,7 @@
     "Slashshot[↓]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -29,7 +29,7 @@
     "Slashshot[↑]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -56,7 +56,7 @@
     "Slashshot[←]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -83,7 +83,7 @@
     "Slashshot[→]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -110,7 +110,7 @@
     "x.Slashshot[↓]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -137,7 +137,7 @@
     "x.Slashshot[↑]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -164,7 +164,7 @@
     "x.Slashshot[←]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
@@ -191,7 +191,7 @@
     "x.Slashshot[→]": [
         {
             
-            "input": "Jump"
+            "input": "J"
         },
         {
             "max.delay": 400,
