@@ -127,7 +127,7 @@ class PlotWidget(QWidget):
                 break
             points.append((x_time, entry.get_color(), entry.get_text()))
             x_time -= entry.get_delay()
-        self.entries = self.entries[-len(points) :]
+        self.entries = self.entries[-len(points):]
 
         x_previous = None
         label_below = True  # Start with label below
@@ -165,9 +165,6 @@ class ContentPanel(QWidget):
         )
         self.setLayout(self.layout)
         self.max_rows = 10  # Maximum number of rows to show
-        max_height = self.max_rows * (RectangleWidget.RECT_SIZE + Gui.SPACING)
-        self.setMaximumHeight(max_height)
-        self.setMinimumHeight(max_height)
 
     def add(self, specials):
         layout = QHBoxLayout()
@@ -193,9 +190,6 @@ class ContentPanel(QWidget):
                         if widget:
                             widget.deleteLater()
                 del row_layout
-
-        # Set fixed height to max_rows worth of rectangles
-        self.setFixedHeight(self.max_rows * (RectangleWidget.RECT_SIZE + Gui.SPACING))
 
 
 # --- BottomPanel ---
@@ -242,15 +236,13 @@ class Gui(QWidget):
         self.main.setContentsMargins(Gui.SPACING, Gui.SPACING, Gui.SPACING, Gui.SPACING)
 
         self.content = ContentPanel(self)
-        self.main.addWidget(self.content)
-        self.main.addSpacing(10)  # 10px margin between content and plot
-
-        self.plot = PlotWidget(self, colors)
-        self.main.addWidget(self.plot)
-        self.main.addSpacing(10)  # 10px margin between plot and bottom
+        self.main.addWidget(self.content, 8)
 
         self.bottom = BottomPanel(self)
-        self.main.addWidget(self.bottom)
+        self.main.addWidget(self.bottom, 1)
+
+        self.plot = PlotWidget(self, colors)
+        self.main.addWidget(self.plot, 1)
 
         self.thread = QThread()
         self.worker = Worker(handler)
@@ -266,9 +258,10 @@ class Gui(QWidget):
 
     def _set_size(self):
         sg = QApplication.screens()[0].geometry()
-        x = sg.x()
-        y = sg.y()
-        self.setGeometry(x, y + 100, sg.width(), 900)
+        x, y = sg.x(),  sg.y()
+        width, height = sg.width(), sg.height()
+        print(x, y, width, height)
+        self.setGeometry(x, y, width, height)
 
     def add_inputs(self, entries):
         self.plot.add(entries)
