@@ -1,13 +1,12 @@
 import threading
 import sys
-import os
 from pynput import keyboard, mouse
 from glob import glob
 
 from source.inputs import InputBuffer, AutomatedMove, Move, MoveInput, Input
 from source.gui.gui import GuiApplication
 from source.gui.gui import GuiHandler
-from source.gui.entry import Entries 
+from source.gui.entry import GuiEntry 
 import source.utils as utils
 
 
@@ -32,23 +31,24 @@ class Handler(GuiHandler):
 
     def run(self):
         ts = utils.get_timestamp_ms()
-        self.process_automated_inputs(ts)
-        return self.process_manual_inputs(ts)
+        self.process_automated(ts)
+        return self.process_manual(ts)
 
     def create_entries(self, original, derived):
-        entries = Entries()
+        inputs = []
+        outputs = []
         for input in original:
-            entries.add_normal(input.get_key(), str(input.get_delay()))
+            inputs.append(GuiEntry(input.get_key(),input.get_delay()))
 
         for input in derived:
-            entries.add_special(input.get_key(), str(input.get_delay()))
+            outputs.append(GuiEntry(input.get_key(), input.get_delay()))
 
+        clear = self.clear 
         if self.clear:
             self.clear = False
-            return entries, True
-        return entries, False
+        return inputs, outputs, clear, self.running
 
-    def process_manual_inputs(self, ts):
+    def process_manual(self, ts):
         original = []
         derived = []
         if input := self.buffer.pop():
@@ -60,7 +60,7 @@ class Handler(GuiHandler):
 
         return self.create_entries(original, derived)
 
-    def process_automated_inputs(self, ts):
+    def process_automated(self, ts):
         if self.automated_input:
             if self.automated_input.is_done():
                 self.automated_input = None
@@ -80,11 +80,7 @@ class Handler(GuiHandler):
                     self.kb_controller.press(key)
                 self.automated_input.set_pressed(ts)
 
-    def stop(self):
-        self.running = False
 
-    def is_running(self):
-        return self.running
 
     def handle(self, key):
         ts = utils.get_timestamp_ms()
@@ -100,7 +96,6 @@ class Handler(GuiHandler):
             self.clear = True
 
         if key == "-":
-        # if key == keyboard.Key.esc:
             self.running = False
 
     def on_press(self, key):

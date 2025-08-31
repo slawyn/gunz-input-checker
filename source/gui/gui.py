@@ -1,30 +1,27 @@
 
-from PyQt5.QtWidgets import QHBoxLayout, QPushButton
-from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QScrollArea, QApplication
+from PyQt5.QtWidgets import QHBoxLayout
+from PyQt5.QtWidgets import  QWidget, QHBoxLayout, QVBoxLayout, QApplication, QSizePolicy
 from PyQt5.QtGui import QPainter, QPen, QFont, QBrush
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, Qt, QRectF
-from PyQt5.QtChart import QChart, QChartView, QLineSeries
-from PyQt5.QtChart import QScatterSeries
+from PyQt5.QtChart import QChart, QChartView, QLineSeries, QScatterSeries, QValueAxis
 from PyQt5.QtCore import QPointF
 from PyQt5.QtWidgets import QGraphicsSimpleTextItem
 from PyQt5.QtGui import QColor, QBrush
-
-
 import time
 
 from .rectangle import RectangleWidget
+from .entry import GuiEntry
 
 
 class GuiHandler:
     def run(self):
         raise NotImplementedError()
 
-    def is_running(self):
-        raise NotImplementedError()
 
 class Worker(QObject):
     finished = pyqtSignal()
-    add_rectangle = pyqtSignal(list, list)  # Additional parameter of type string
+    add_inputs = pyqtSignal(list)  # Additional parameter of type string
+    add_outputs = pyqtSignal(list)  # Additional parameter of type string
     clear_scroll_and_bottom = pyqtSignal()  # Additional parameter of type string
 
     def __init__(self, handler):
@@ -32,81 +29,109 @@ class Worker(QObject):
         self.handler = handler
 
     def run(self):
-        while self.handler.is_running():
+        while True:
             time.sleep(0.001)
-            entries, clear = self.handler.run()
+            inputs, outputs, clear, running = self.handler.run()
             if clear:
                 self.clear_scroll_and_bottom.emit()
-            if entries:
-                self.add_rectangle.emit(entries.normals, entries.specials)
+            if inputs:
+                self.add_inputs.emit(inputs)
+            if outputs:
+                self.add_outputs.emit(outputs)
+            if not running:
+                break
 
         self.finished.emit()
 
 
 
 class PlotWidget(QWidget):
+    X_WINDOW = 3000.0
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.series = QLineSeries()
-        self.marker_series = QScatterSeries()
-        self.marker_series.setMarkerSize(10)
-        self.plot_points = []  # List of (timestamp, value, label)
-        self.plot_span = 3.0  # seconds
+        self.markers = QScatterSeries()
+        self.markers.setMarkerSize(10)
+        self.entries = []
+
+        # Axes
+        x_axis = QValueAxis()
+        x_axis.setRange(0, PlotWidget.X_WINDOW)
+        x_axis.setTickInterval(100.0)
+        x_axis.setMinorTickCount(0)
+        x_axis.setTickCount(int(PlotWidget.X_WINDOW / 100) + 1)
+        x_axis.setLabelsVisible(True)
+        x_axis.setLineVisible(False)
+        x_axis.setGridLineVisible(True)
+
+        y_axis = QValueAxis()
+        y_axis.setRange(-1, 1) 
+        y_axis.setVisible(False)
+
+        # Create chart
         self.chart = QChart()
-        self.chart.addSeries(self.series)
-        self.chart.addSeries(self.marker_series)
-        self.chart.createDefaultAxes()
         self.chart.legend().hide()
-        # Hide y-axis
-        y_axis = self.chart.axisY()
-        if y_axis:
-            y_axis.setVisible(False)
-        # Hide x-axis line, but keep ticks for time
-        x_axis = self.chart.axisX()
-        if x_axis:
-            x_axis.setLineVisible(False)
-            x_axis.setGridLineVisible(False)
-            x_axis.setRange(0, self.plot_span)
-        self.x_axis = x_axis
-        self.chart_view = QChartView(self.chart)
-        self.chart_view.setStyleSheet("background: transparent;")
-        self.chart_view.setFixedHeight(40)
-        self.chart_view.setSizePolicy(self.chart_view.sizePolicy().Expanding, self.chart_view.sizePolicy().Fixed)
+        self.chart.setBackgroundBrush(QBrush(QColor(0, 0, 0, 128)))
+        self.chart.setBackgroundVisible(True)
+        self.chart.addSeries(self.series)
+        self.chart.addSeries(self.markers)
+        self.chart.setAxisX(x_axis, self.series)
+        self.chart.setAxisX(x_axis, self.markers)
+        self.chart.setAxisY(y_axis, self.series)
+        self.chart.setAxisY(y_axis, self.markers)
+
+        chart_view = QChartView(self.chart)
+        chart_view.setStyleSheet("background: transparent;")
+        chart_view.setFixedHeight(50)
+        chart_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.chart_view)
-        bg_color = QColor(0, 0, 0)
-        bg_color.setAlphaF(0.5)
-        self.chart.setBackgroundBrush(QBrush(bg_color))
-        self.chart.setBackgroundVisible(True)
+        layout.addWidget(chart_view)
 
-    def add_point(self, label):
-        now = time.time()
-        self.plot_points.append((now, 0, label))
-        min_time = now - self.plot_span
-        self.plot_points = [(t, v, l) for t, v, l in self.plot_points if t >= min_time]
+        # Set marker and line color to orange, marker shape to square
+        orange = QColor(255, 140, 0)
+        self.series.setColor(orange)
+        self.markers.setColor(orange)
+        self.markers.setMarkerShape(self.markers.MarkerShapeRectangle)
+        self.markers.setBrush(QBrush(orange))
+        self.markers.setPen(QPen(orange))
+
+
+    def add(self, entries):
+        self.entries.extend(entries)
         self.series.clear()
-        self.marker_series.clear()
-        for t, v, l in self.plot_points:
-            x = t - min_time
-            self.series.append(x, v)
-            self.marker_series.append(x, v)
-        # Remove old marker labels
+        self.markers.clear()
+
+        # Remove old marker labels (if any remain)
         for item in self.chart.scene().items():
-            if hasattr(item, '_is_marker_label'):
+            if isinstance(item, QGraphicsSimpleTextItem):
                 self.chart.scene().removeItem(item)
-        for t, v, l in self.plot_points:
-            x = t - min_time
-            if l:
-                label_item = QGraphicsSimpleTextItem(l)
-                label_item.setBrush(Qt.red)
-                label_item.setFont(QFont('Arial', 8))
-                pos = self.chart.mapToPosition(QPointF(x, v))
-                label_item.setPos(pos)
-                label_item._is_marker_label = True
-                self.chart.scene().addItem(label_item)
-        if self.x_axis:
-            self.x_axis.setRange(0, self.plot_span)
+
+        plottable = []
+        x_time = PlotWidget.X_WINDOW 
+        for idx, point in enumerate(reversed(self.entries)):
+            if x_time <= 0:
+                length = len(self.entries)
+                self.entries = self.entries[length-idx:length]
+                break
+
+            delay, text = point.get_delay(), point.get_text()
+            plottable.append((x_time, 0, text))
+            x_time -= delay
+
+        for x, y, l in plottable:
+            self.series.append(x, y)
+            self.markers.append(x, y)
+
+            item = QGraphicsSimpleTextItem(l)
+            item.setBrush(Qt.red)
+            item.setFont(QFont('Arial', 8))
+
+            item.setPos(self.chart.mapToPosition(QPointF(x, y - 1)))
+            self.chart.scene().addItem(item)
+
 
 # --- ContentPanel ---
 class ContentPanel(QWidget):
@@ -119,12 +144,13 @@ class ContentPanel(QWidget):
         self.max_rows = 10  # Maximum number of rows to show
         self.setMaximumHeight(self.max_rows * (RectangleWidget.RECT_SIZE + Gui.SPACING))
 
-    def add_specials(self, specials):
-        hbox_layout = QHBoxLayout()
-        hbox_layout.setAlignment(Qt.AlignLeft)
+    def add(self, specials):
+        layout = QHBoxLayout()
+        layout.setAlignment(Qt.AlignLeft)
         for entry in specials:
-            hbox_layout.addWidget(RectangleWidget(entry.text, entry.subtext, self, is_red=True))
-        self.layout.addLayout(hbox_layout)
+            layout.addWidget(RectangleWidget(entry.get_text(), entry.get_subtext(), self, is_red=True))
+        self.layout.addLayout(layout)
+
         # Remove oldest rows if exceeding max_rows
         while self.layout.count() > self.max_rows:
             item = self.layout.takeAt(0)
@@ -138,6 +164,7 @@ class ContentPanel(QWidget):
                         if widget:
                             widget.deleteLater()
                 del row_layout
+
         # Set fixed height to max_rows worth of rectangles
         self.setFixedHeight(self.max_rows * (RectangleWidget.RECT_SIZE + Gui.SPACING))
 
@@ -147,18 +174,19 @@ class BottomPanel(QWidget):
         super().__init__(parent)
         self.layout = QHBoxLayout(self)
         self.layout.setAlignment(Qt.AlignLeft)
-        self.layout.setSpacing(10)
+        self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.layout)
-    def add_normals(self, normals):
-        for entry in normals:
-            self.layout.addWidget(RectangleWidget(entry.text, entry.subtext, self))
-        widget_count = self.layout.count()
-        if widget_count > Gui.MAX_WIDGET_COUNT:
-            for i in range(widget_count - Gui.MAX_WIDGET_COUNT):
+
+    def add(self, entries):
+        for entry in entries:
+            self.layout.addWidget(RectangleWidget(entry.get_text(), entry.get_subtext(), self))
+
+        count = self.layout.count()
+        if count > Gui.MAX_WIDGET_COUNT:
+            for i in range(count - Gui.MAX_WIDGET_COUNT):
                 if item := self.layout.takeAt(0):
-                    widget = item.widget()
-                    if widget:
+                    if widget:= item.widget():
                         widget.deleteLater()
 
 # --- Main Gui class ---
@@ -178,48 +206,45 @@ class Gui(QWidget):
         self.setWindowFlag(Qt.WindowTransparentForInput, True)
         self.setStyleSheet("color: red; background-color: transparent;")
         self.setWindowOpacity(0.8)
-        self.set_position_to_left_screen()
-        self.closeCallback = handler.stop
-        self.main_layout = QVBoxLayout(self)
-        self.main_layout.setSpacing(Gui.SPACING)
-        self.main_layout.setContentsMargins(Gui.SPACING, Gui.SPACING, Gui.SPACING, Gui.SPACING)
-        self.content_panel = ContentPanel(self)
-        self.main_layout.addWidget(self.content_panel)
-        self.plot_widget = PlotWidget(self)
-        self.main_layout.addWidget(self.plot_widget)
-        self.bottom_panel = BottomPanel(self)
-        self.main_layout.addWidget(self.bottom_panel)
+        self._set_size()
+
+        self.main = QVBoxLayout(self)
+        self.main.setSpacing(Gui.SPACING)
+        self.main.setContentsMargins(Gui.SPACING, Gui.SPACING, Gui.SPACING, Gui.SPACING)
+
+        self.content = ContentPanel(self)
+        self.main.addWidget(self.content)
+
+        self.plot = PlotWidget(self)
+        self.main.addWidget(self.plot)
+
+        self.bottom = BottomPanel(self)
+        self.main.addWidget(self.bottom)
+
         self.thread = QThread()
         self.worker = Worker(handler)
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.thread.quit)
-        self.worker.add_rectangle.connect(self.add_rectangle)
+        self.worker.add_inputs.connect(self.add_inputs)
+        self.worker.add_outputs.connect(self.add_outputs)
         self.worker.clear_scroll_and_bottom.connect(self.clear_scroll_and_bottom)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.thread.start()
 
-    def set_position_to_left_screen(self):
-        screen_geometry = QApplication.screens()[0].geometry()
-        x = screen_geometry.x()
-        y = screen_geometry.y()
-        self.setGeometry(x, y + 100, 900, 900)
+    def _set_size(self):
+        sg = QApplication.screens()[0].geometry()
+        x = sg.x()
+        y = sg.y()
+        self.setGeometry(x, y + 100, sg.width(), 900)
 
-    def add_rectangle(self, normals, specials):
-        label = None
-        if specials and len(specials) > 0:
-            label = specials[0].text
-        elif normals and len(normals) > 0:
-            label = normals[0].text
-            self.plot_widget.add_point(label)
-        else:
-            label = ""
+    def add_inputs(self, entries):
+        self.plot.add(entries)
+        self.bottom.add(entries)
 
-        if specials:
-            self.content_panel.add_specials(specials)
-        if normals:
-            self.bottom_panel.add_normals(normals)
+    def add_outputs(self, entries):
+        self.content.add(entries)
 
     def _clear_layout(self, layout):
         if layout is not None:
@@ -231,11 +256,9 @@ class Gui(QWidget):
                     self._clear_layout(item.layout())
 
     def clear_scroll_and_bottom(self):
-        self._clear_layout(self.content_panel.layout)
-        self._clear_layout(self.bottom_panel.layout)
+        self._clear_layout(self.content.layout)
+        self._clear_layout(self.bottom.layout)
 
-    def closeEvent(self, event):
-        self.closeCallback()
 
         
 class GuiApplication():

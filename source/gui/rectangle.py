@@ -35,8 +35,9 @@ class RectangleWidget(QWidget):
         painter.setPen(QPen(Qt.red))
         painter.setFont(font)
 
-        text_rect = QRectF(10, 10, self.width() - 20, (self.height() - 20) / 2)
-        subtext_rect = QRectF(10, 30, self.width() - 20, (self.height() - 20) / 2)
-
-        painter.drawText(text_rect, Qt.AlignCenter, self.text)
-        painter.drawText(subtext_rect, Qt.AlignCenter, self.subtext)
+        painter.drawText(QRectF(10, 10, self.width() - 20, (self.height() - 20) / 2),
+                         Qt.AlignCenter,
+                         self.text)
+        painter.drawText(QRectF(10, 30, self.width() - 20, (self.height() - 20) / 2),
+                         Qt.AlignCenter,
+                         self.subtext)

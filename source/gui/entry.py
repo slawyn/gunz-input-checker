@@ -1,22 +1,16 @@
-class Entry:
-    def __init__(self, text, subtext):
-        self.subtext = subtext
+class GuiEntry:
+    def __init__(self, text, delay):
+        self.delay = delay
         self.text = text
 
-    def __str__(self):
-        return f"{self.text} ({self.subtext})"
+    def get_text(self):
+        return self.text
 
-
-class Entries:
-    def __init__(self):
-        self.normals = []
-        self.specials = []
-
-    def add_normal(self, text, subtext):
-        self.normals.append(Entry(text, subtext))
-
-    def add_special(self, text, subtext):
-        self.specials.append(Entry(text, subtext))
+    def get_subtext(self):
+        return f"{self.delay}ms"
+    
+    def get_delay(self):
+        return self.delay
 
     def __str__(self):
-        return f"{self.name}: {[str(entry) for entry in self.normals]}"
+        return f"{self.text} ({self.delay})"
