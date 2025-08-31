@@ -136,7 +136,7 @@ class PlotWidget(QWidget):
             self.markers[color].append(x + PlotWidget.X_OFFSET, 0)
 
             label = QGraphicsSimpleTextItem(text)
-            label.setBrush(Qt.red)
+            label.setBrush(Qt.white)
             label.setFont(QFont("Arial", 8))
 
             # Position the label, alternating if too close to the previous one

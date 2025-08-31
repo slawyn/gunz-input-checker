@@ -21,18 +21,18 @@ class RectangleWidget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         if self.is_red:
-            painter.setBrush(QBrush(Qt.gray, Qt.SolidPattern))
-            painter.setPen(QPen(Qt.red, 2, Qt.SolidLine))
+            painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
+            painter.setPen(QPen(Qt.white, 2, Qt.SolidLine))
         else:
-            painter.setBrush(QBrush(Qt.gray, Qt.SolidPattern))
-            painter.setPen(QPen(Qt.black, 2, Qt.SolidLine))
+            painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
+            painter.setPen(QPen(Qt.white, 2, Qt.SolidLine))
 
         rect = QRectF(10, 10, self.width() - 20, self.height() - 20)
         painter.drawRect(rect)
 
         font = QFont()
         font.setPointSize(8)
-        painter.setPen(QPen(Qt.red))
+        painter.setPen(QPen(Qt.white))
         painter.setFont(font)
 
         painter.drawText(QRectF(10, 10, self.width() - 20, (self.height() - 20) / 2),
