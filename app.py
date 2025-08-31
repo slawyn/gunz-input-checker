@@ -9,12 +9,24 @@ from source.gui.gui import GuiHandler
 from source.gui.entry import GuiEntry 
 import source.utils as utils
 
+class MappedInput:
+    def __init__(self, action, color):
+        self.action = action
+        self.color = color
+
+    def get_action(self):
+        return self.action
+    
+    def get_color(self):
+        return self.color
+
 
 class Handler(GuiHandler):
-    def __init__(self, mappings, moves):
+    def __init__(self, map, moves):
         self.running = True
-        self.mappings = mappings
-        self.reverse_mappings = {v: k for k, v in mappings.items()}
+        self.key2action_map = {k: v.get_action() for k, v in map.items()}
+        self.action2color_map = {v.get_action(): v.get_color() for v in map.values()}
+        self.action2key_map = {v.get_action(): k for k, v in map.items()}
         self.moves = moves
         self.buffer = InputBuffer()
         self.available_moves = self.moves[:]
@@ -23,6 +35,14 @@ class Handler(GuiHandler):
         self.ms_controller = mouse.Controller()
         self.moves_counter = 0
         self.clear = False
+
+    def get_colors(self):
+        return list(self.action2color_map.values())
+
+    def _resolve_action_color(self, action):
+        if action in self.action2color_map:
+            return self.action2color_map[action]
+        return "#FFFFFF"
 
     def find_move(self, name):
         for move in self.moves:
@@ -38,10 +58,12 @@ class Handler(GuiHandler):
         inputs = []
         outputs = []
         for input in original:
-            inputs.append(GuiEntry(input.get_key(),input.get_delay()))
+            action = input.get_action()
+            inputs.append(GuiEntry(action,input.get_delay(), self._resolve_action_color(action)))
 
         for input in derived:
-            outputs.append(GuiEntry(input.get_key(), input.get_delay()))
+            action = input.get_action()
+            outputs.append(GuiEntry(action, input.get_delay(), self._resolve_action_color(action)))
 
         clear = self.clear 
         if self.clear:
@@ -66,14 +88,14 @@ class Handler(GuiHandler):
                 self.automated_input = None
             elif self.automated_input.is_pressed():
                 if self.automated_input.needs_releasing(ts):
-                    key = self.reverse_mappings[self.automated_input.get_next_input_key()]
+                    key = self.action2key_map[self.automated_input.get_next_input_key()]
                     if type(key) == mouse.Button:
                         self.ms_controller.release(key)
                     else:
                         self.kb_controller.release(key)
                     self.automated_input.set_released()
             elif self.automated_input.can_be_executed(ts):
-                key = self.reverse_mappings[self.automated_input.get_next_input_key()]
+                key = self.action2key_map[self.automated_input.get_next_input_key()]
                 if type(key) == mouse.Button:
                     self.ms_controller.press(key)
                 else:
@@ -84,8 +106,8 @@ class Handler(GuiHandler):
 
     def handle(self, key):
         ts = utils.get_timestamp_ms()
-        if key in self.mappings:
-            self.buffer.add(self.mappings[key], ts)
+        if key in self.key2action_map:
+            self.buffer.add(self.key2action_map[key], ts)
         else:
             print(ts, key)
             # if key == "+":
@@ -135,19 +157,20 @@ def load_moves(filenames):
 
 if __name__ == "__main__":
     mappings = {
-        "w": "↑",
-        "a": "←",
-        "s": "↓",
-        "d": "→",
-        "e": "W1",
-        "q": "W2",
-        keyboard.Key.space: "R",
-        keyboard.Key.caps_lock: "S",
-        mouse.Button.left: "A",
-        mouse.Button.right: "J",
-        mouse.Button.x2: "B",
-        mouse.Button.middle: "G"
+        "w": MappedInput("↑", "#FF9000"),
+        "a": MappedInput("←", "#FF9000"),
+        "s": MappedInput("↓", "#FF9000"),
+        "d": MappedInput("→", "#FF9000"),
+        "e": MappedInput("W1", "#036FFC"),
+        "q": MappedInput("W2", "#1100FF"),
+        keyboard.Key.space: MappedInput("R", "#FF1500"),
+        keyboard.Key.caps_lock: MappedInput("S", "#FFFFFF"),
+        mouse.Button.left: MappedInput("A", "#00A31B"),
+        mouse.Button.right: MappedInput("J", "#FF00AA"),
+        mouse.Button.x2: MappedInput("B", "#A7A7A7"),
+        mouse.Button.middle: MappedInput("G", "#D268FF"),
     }
+
 
     # Start keyboard and mouse listeners in separate threads
     handler = Handler(mappings, load_moves(glob('moves/**/*.json', recursive=True)))
@@ -156,7 +179,7 @@ if __name__ == "__main__":
     keyboard_thread.start()
     mouse_thread.start()
 
-    app = GuiApplication(sys.argv, handler)
+    app = GuiApplication(sys.argv, handler, handler.get_colors())
     app.start()
 
     keyboard_thread.join()

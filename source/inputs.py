@@ -2,18 +2,18 @@ import source.utils as utils
 
 
 class Input:
-    def __init__(self, key, delay):
-        self.key = key
+    def __init__(self, action, delay):
+        self.action = action
         self.delay = delay
 
-    def get_key(self):
-        return self.key
+    def get_action(self):
+        return self.action
 
     def get_delay(self):
         return self.delay
 
     def __str__(self):
-        return f"{self.key:6}({self.delay:3})"
+        return f"{self.action:6}({self.delay:3})"
 
 
 class MoveInput():
@@ -29,7 +29,7 @@ class MoveInput():
         return self.min_delay
 
     def is_executed(self, input):
-        return (self.min_delay <= input.delay <= self.max_delay) and input.key in self.keys
+        return (self.min_delay <= input.delay <= self.max_delay) and input.action in self.keys
 
     def __str__(self):
         return f"{self.keys}({self.min_delay}-{self.max_delay:3})"
