@@ -1,3 +1,6 @@
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QGraphicsOpacityEffect
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGraphicsOpacityEffect
+from PyQt5.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QDateTime
 from PyQt5.QtWidgets import QHBoxLayout
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QApplication, QSizePolicy
 from PyQt5.QtGui import QPainter, QPen, QFont, QBrush
@@ -154,66 +157,112 @@ class PlotWidget(QWidget):
             x_previous = x
 
 
-# --- ContentPanel ---
 class ContentPanel(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.layout = QVBoxLayout(self)
         self.layout.setSpacing(Gui.SPACING)
-        self.layout.setContentsMargins(
-            Gui.SPACING, Gui.SPACING, Gui.SPACING, Gui.SPACING
-        )
+        self.layout.setContentsMargins(Gui.SPACING, Gui.SPACING, Gui.SPACING, Gui.SPACING)
         self.setLayout(self.layout)
-        self.max_rows = 10  # Maximum number of rows to show
+        self.max_rows = 10
 
     def add(self, specials):
+        self.last_add_time = QDateTime.currentDateTime()
         layout = QHBoxLayout()
         layout.setAlignment(Qt.AlignLeft)
         for entry in specials:
-            layout.addWidget(
-                RectangleWidget(
-                    entry.get_text(), entry.get_subtext(), self, is_red=True
-                )
-            )
+            widget = RectangleWidget(entry.get_text(), entry.get_subtext(), self, is_red=True)
+            layout.addWidget(widget)
         self.layout.addLayout(layout)
 
-        # Remove oldest rows if exceeding max_rows
         while self.layout.count() > self.max_rows:
-            item = self.layout.takeAt(0)
-            if item:
-                # Remove all widgets in the row
-                row_layout = item.layout()
-                if row_layout:
-                    while row_layout.count():
-                        witem = row_layout.takeAt(0)
-                        widget = witem.widget()
-                        if widget:
-                            widget.deleteLater()
-                del row_layout
+            self.remove_row(0)
+
+    def fade_and_remove_row(self, index):
+        item = self.layout.itemAt(index)
+        if item:
+            row_layout = item.layout()
+            if row_layout:
+                for i in range(row_layout.count()):
+                    widget = row_layout.itemAt(i).widget()
+                    if widget:
+                        effect = QGraphicsOpacityEffect(widget)
+                        widget.setGraphicsEffect(effect)
+                        animation = QPropertyAnimation(effect, b"opacity")
+                        animation.setDuration(1000)
+                        animation.setStartValue(1)
+                        animation.setEndValue(0)
+                        animation.setEasingCurve(QEasingCurve.OutQuad)
+                        animation.finished.connect(widget.deleteLater)
+                        animation.start()
+                self.layout.takeAt(index)
+
+    def remove_row(self, index):
+        item = self.layout.takeAt(index)
+        if item:
+            row_layout = item.layout()
+            if row_layout:
+                while row_layout.count():
+                    witem = row_layout.takeAt(0)
+                    widget = witem.widget()
+                    if widget:
+                        widget.deleteLater()
 
 
-# --- BottomPanel ---
 class BottomPanel(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent, content_panel):
         super().__init__(parent)
+        self.content_panel = content_panel
         self.layout = QHBoxLayout(self)
         self.layout.setAlignment(Qt.AlignLeft)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.layout)
 
+        self.last_add_time = QDateTime.currentDateTime()
+        self.inactivity_timer = QTimer(self)
+        self.inactivity_timer.timeout.connect(self.check_inactivity)
+        self.inactivity_timer.start(1000)  # Check every second
+
     def add(self, entries):
+        self.last_add_time = QDateTime.currentDateTime()
         for entry in entries:
-            self.layout.addWidget(
-                RectangleWidget(entry.get_text(), entry.get_subtext(), self)
-            )
+            widget = RectangleWidget(entry.get_text(), entry.get_subtext(), self)
+            self.layout.addWidget(widget)
 
         count = self.layout.count()
         if count > Gui.MAX_WIDGET_COUNT:
             for i in range(count - Gui.MAX_WIDGET_COUNT):
-                if item := self.layout.takeAt(0):
-                    if widget := item.widget():
-                        widget.deleteLater()
+                self.remove_widget(0)
+
+    def check_inactivity(self):
+        if self.last_add_time.msecsTo(QDateTime.currentDateTime()) > 3000:
+            if self.layout.count() > 0:
+                self.fade_and_remove_widget(0)
+                self.content_panel.fade_and_remove_row(0)
+
+    def fade_and_remove_widget(self, index):
+        item = self.layout.itemAt(index)
+        if item:
+            widget = item.widget()
+            if widget:
+                effect = QGraphicsOpacityEffect(widget)
+                widget.setGraphicsEffect(effect)
+                animation = QPropertyAnimation(effect, b"opacity")
+                animation.setDuration(1000)
+                animation.setStartValue(1)
+                animation.setEndValue(0)
+                animation.setEasingCurve(QEasingCurve.OutQuad)
+                animation.finished.connect(widget.deleteLater)
+                animation.start()
+                self.layout.takeAt(index)
+
+    def remove_widget(self, index):
+        item = self.layout.takeAt(index)
+        if item:
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
 
 
 # --- Main Gui class ---
@@ -238,7 +287,7 @@ class Gui(QWidget):
         self.content = ContentPanel(self)
         self.main.addWidget(self.content, 8)
 
-        self.bottom = BottomPanel(self)
+        self.bottom = BottomPanel(self, self.content)
         self.main.addWidget(self.bottom, 1)
 
         self.plot = PlotWidget(self, colors)
