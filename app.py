@@ -10,7 +10,7 @@ from source.gui.entry import GuiEntry
 import source.utils as utils
 
 
-class MappedInput:
+class Mapped:
     def __init__(self, action, color):
         self.action = action
         self.color = color
@@ -37,7 +37,12 @@ class Handler(GuiHandler):
         self.moves_counter = 0
         self.clear = False
 
-    def get_colors(self):
+    def run(self):
+        ts = utils.get_timestamp_ms()
+        self._process_automated(ts)
+        return self._process_manual(ts)
+
+    def _get_available_colors(self):
         return list(self.action2color_map.values()) + ["#19EEE7"]
 
     def _resolve_action_color(self, action):
@@ -45,17 +50,12 @@ class Handler(GuiHandler):
             return self.action2color_map[action]
         return "#19EEE7"
 
-    def find_move(self, name):
+    def _find_move(self, name):
         for move in self.moves:
             if move.name == name:
                 return move
 
-    def run(self):
-        ts = utils.get_timestamp_ms()
-        self.process_automated(ts)
-        return self.process_manual(ts)
-
-    def create_entries(self, original, derived):
+    def _create_gui_entries(self, original, derived):
         inputs = []
         outputs = []
         for input in original:
@@ -71,19 +71,19 @@ class Handler(GuiHandler):
             self.clear = False
         return inputs, outputs, clear, self.running
 
-    def process_manual(self, ts):
+    def _process_manual(self, ts):
         original = []
         derived = []
         if input := self.buffer.pop():
             original.append(input)
             for move in self.moves:
-                if self.buffer.is_move_executed(input, move):
+                if move.is_executed(input):
                     self.moves_counter += 1
                     derived.append(Input(f"[{self.moves_counter}]{move.name}", move.get_accumulated_delay()))
 
-        return self.create_entries(original, derived)
+        return self._create_gui_entries(original, derived)
 
-    def process_automated(self, ts):
+    def _process_automated(self, ts):
         if self.automated_input:
             if self.automated_input.is_done():
                 self.automated_input = None
@@ -103,14 +103,12 @@ class Handler(GuiHandler):
                     self.kb_controller.press(key)
                 self.automated_input.set_pressed(ts)
 
-    def handle(self, key):
+    def _handle_key(self, key):
         ts = utils.get_timestamp_ms()
         if key in self.key2action_map:
             self.buffer.add(self.key2action_map[key], ts)
         else:
             print(ts, key)
-            # if key == "+":
-            #     self.automated_input = AutomatedMove("Automated", self.find_move("Reloadshot").inputs)
 
         if key == "+":
             self.buffer.clear()
@@ -119,8 +117,11 @@ class Handler(GuiHandler):
         if key == "-":
             self.running = False
 
+        if key == "*":
+            self.automated_input = AutomatedMove("Automated", self._find_move("Reloadshot").inputs)
+
     def on_press(self, key):
-        self.handle(key.char if hasattr(key, 'char') and key.char else key)
+        self._handle_key(key.char if hasattr(key, 'char') and key.char else key)
         return self.running
 
     def on_release(self, key):
@@ -128,7 +129,7 @@ class Handler(GuiHandler):
 
     def on_click(self, x, y, button, pressed):
         if pressed:
-            self.handle(button)
+            self._handle_key(button)
         return self.running
 
 
@@ -147,8 +148,10 @@ def load_moves(filenames):
     for filename in filenames:
         print(filename)
         for name, values in utils.load_json(filename).items():
-            move = Move(name, [MoveInput(input["input"], input["max.delay"] if "max.delay" in input else 2 **
-                        33, input["min.delay"] if "min.delay" in input else 0) for input in values])
+            move = Move(name, [MoveInput(input["input"],
+                                         input["max.delay"] if "max.delay" in input else 2 ** 33,
+                                         input["min.delay"] if "min.delay" in input else 0)
+                               for input in values])
             moves.append(move)
             print(move)
 
@@ -157,18 +160,18 @@ def load_moves(filenames):
 
 if __name__ == "__main__":
     mappings = {
-        "w": MappedInput("↑", "#FF9000"),
-        "a": MappedInput("←", "#FF9000"),
-        "s": MappedInput("↓", "#FF9000"),
-        "d": MappedInput("→", "#FF9000"),
-        "e": MappedInput("W1", "#036FFC"),
-        "q": MappedInput("W2", "#1100FF"),
-        keyboard.Key.space: MappedInput("R", "#FF1500"),
-        keyboard.Key.caps_lock: MappedInput("S", "#FFFFFF"),
-        mouse.Button.left: MappedInput("A", "#00A31B"),
-        mouse.Button.right: MappedInput("J", "#FF00AA"),
-        mouse.Button.x2: MappedInput("B", "#A7A7A7"),
-        mouse.Button.middle: MappedInput("G", "#D268FF"),
+        "w": Mapped("↑", "#FF9000"),
+        "a": Mapped("←", "#FF9000"),
+        "s": Mapped("↓", "#FF9000"),
+        "d": Mapped("→", "#FF9000"),
+        "e": Mapped("W1", "#036FFC"),
+        "q": Mapped("W2", "#1100FF"),
+        keyboard.Key.space: Mapped("R", "#FF1500"),
+        keyboard.Key.caps_lock: Mapped("S", "#FFFFFF"),
+        mouse.Button.left: Mapped("A", "#00A31B"),
+        mouse.Button.right: Mapped("J", "#FF00AA"),
+        mouse.Button.x2: Mapped("B", "#A7A7A7"),
+        mouse.Button.middle: Mapped("G", "#D268FF"),
     }
 
     # Start keyboard and mouse listeners in separate threads
@@ -178,7 +181,7 @@ if __name__ == "__main__":
     keyboard_thread.start()
     mouse_thread.start()
 
-    app = GuiApplication(sys.argv, handler, handler.get_colors())
+    app = GuiApplication(sys.argv, handler, handler._get_available_colors())
     app.start()
 
     keyboard_thread.join()

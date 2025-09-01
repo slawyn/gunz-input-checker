@@ -17,22 +17,22 @@ class Input:
 
 
 class MoveInput():
-    def __init__(self, accepted_keys, max_delay, min_delay):
-        self.keys = accepted_keys.split("|")
+    def __init__(self, accepted_actions, max_delay, min_delay):
+        self.actions = accepted_actions.split("|")
         self.max_delay = max_delay
         self.min_delay = min_delay
 
-    def get_first_key(self):
-        return self.keys[0]
+    def get_starting_action(self):
+        return self.actions[0]
 
     def get_min_delay(self):
         return self.min_delay
 
     def is_executed(self, input):
-        return (self.min_delay <= input.delay <= self.max_delay) and input.action in self.keys
+        return (self.min_delay <= input.delay <= self.max_delay) and input.action in self.actions
 
     def __str__(self):
-        return f"{self.keys}({self.min_delay}-{self.max_delay:3})"
+        return f"{self.actions}({self.min_delay}-{self.max_delay:3})"
 
 
 class Move:
@@ -42,13 +42,7 @@ class Move:
         self.next = 0
         self.accumulated_delay = 0
 
-    def has_inputs(self):
-        return len(self.inputs) > 0
-
-    def get_inputs(self):
-        return self.inputs
-
-    def execute(self, input):
+    def _execute(self, input):
         if self.next == 0:
             if self.inputs[0].is_executed(input):
                 self.accumulated_delay = 0
@@ -58,29 +52,30 @@ class Move:
 
         elif self.next < len(self.inputs) and self.inputs[self.next].is_executed(input):
             self.next += 1
-            self.accumulated_delay += input.delay
+            self.accumulated_delay += input.get_delay()
             return True
         else:
             self.next = 0
-            return self.execute(input)
+            return self._execute(input)
 
     def get_accumulated_delay(self):
         return self.accumulated_delay
 
-    def is_executed(self):
-        return self.next == len(self.inputs)
-
-    def reset(self):
-        self.next = 0
+    def is_executed(self, input):
+        if self._execute(input):
+            if self.next == len(self.inputs):
+                self.next = 0
+                return True
+        return False
 
     def __str__(self):
-        out = self.name + ":\n"
+        out = ""
+        out += self.name + ":\n"
         out += " + ".join([str(input) for input in self.inputs])
         return out
 
 
 class AutomatedMove:
-
     def __init__(self, name, inputs=[]):
         self.name = name
         self.inputs = inputs
@@ -92,7 +87,7 @@ class AutomatedMove:
         return self.timestamp + self.inputs[self.executed].min_delay < ts
 
     def get_next_input_key(self):
-        return self.inputs[self.executed].get_first_key()
+        return self.inputs[self.executed].get_starting_action()
 
     def set_pressed(self, timestamp):
         self.pressed = True
@@ -113,9 +108,7 @@ class AutomatedMove:
 
 
 class InputBuffer:
-
     def __init__(self):
-        self.name = ""
         self.pending = []
         self.timestamp = 0
 
@@ -132,14 +125,6 @@ class InputBuffer:
         if self.pending:
             return self.pending.pop(0)
         return []
-
-    def is_move_executed(self, input, move):
-        if move.execute(input):
-            if move.is_executed():
-                move.reset()
-                return True
-
-        return False
 
     def __str__(self):
         return " + ".join([str(input) for input in (self.pending)])
