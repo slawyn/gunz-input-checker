@@ -6,8 +6,9 @@ from glob import glob
 from source.inputs import InputBuffer, AutomatedMove, Move, MoveInput, Input
 from source.gui.gui import GuiApplication
 from source.gui.gui import GuiHandler
-from source.gui.entry import GuiEntry 
+from source.gui.entry import GuiEntry
 import source.utils as utils
+
 
 class MappedInput:
     def __init__(self, action, color):
@@ -16,7 +17,7 @@ class MappedInput:
 
     def get_action(self):
         return self.action
-    
+
     def get_color(self):
         return self.color
 
@@ -37,12 +38,12 @@ class Handler(GuiHandler):
         self.clear = False
 
     def get_colors(self):
-        return list(self.action2color_map.values())
+        return list(self.action2color_map.values()) + ["#19EEE7"]
 
     def _resolve_action_color(self, action):
         if action in self.action2color_map:
             return self.action2color_map[action]
-        return "#FFFFFF"
+        return "#19EEE7"
 
     def find_move(self, name):
         for move in self.moves:
@@ -59,13 +60,13 @@ class Handler(GuiHandler):
         outputs = []
         for input in original:
             action = input.get_action()
-            inputs.append(GuiEntry(action,input.get_delay(), self._resolve_action_color(action)))
+            inputs.append(GuiEntry(action, input.get_delay(), self._resolve_action_color(action)))
 
         for input in derived:
             action = input.get_action()
-            outputs.append(GuiEntry(action, input.get_delay(), self._resolve_action_color(action)))
+            outputs.append(GuiEntry(action, input.get_delay(), self._resolve_action_color(action), special=True))
 
-        clear = self.clear 
+        clear = self.clear
         if self.clear:
             self.clear = False
         return inputs, outputs, clear, self.running
@@ -101,8 +102,6 @@ class Handler(GuiHandler):
                 else:
                     self.kb_controller.press(key)
                 self.automated_input.set_pressed(ts)
-
-
 
     def handle(self, key):
         ts = utils.get_timestamp_ms()
@@ -148,7 +147,8 @@ def load_moves(filenames):
     for filename in filenames:
         print(filename)
         for name, values in utils.load_json(filename).items():
-            move = Move(name, [MoveInput(input["input"], input["max.delay"] if "max.delay" in input else 2**33, input["min.delay"] if "min.delay" in input else 0) for input in values])
+            move = Move(name, [MoveInput(input["input"], input["max.delay"] if "max.delay" in input else 2 **
+                        33, input["min.delay"] if "min.delay" in input else 0) for input in values])
             moves.append(move)
             print(move)
 
@@ -170,7 +170,6 @@ if __name__ == "__main__":
         mouse.Button.x2: MappedInput("B", "#A7A7A7"),
         mouse.Button.middle: MappedInput("G", "#D268FF"),
     }
-
 
     # Start keyboard and mouse listeners in separate threads
     handler = Handler(mappings, load_moves(glob('moves/**/*.json', recursive=True)))

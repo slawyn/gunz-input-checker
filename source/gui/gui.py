@@ -80,7 +80,7 @@ class PlotWidget(QWidget):
         x_axis.setGridLineVisible(True)
 
         y_axis = QValueAxis()
-        y_axis.setRange(-1, 1)
+        y_axis.setRange(-1, 10)
         y_axis.setVisible(False)
 
         # Create chart
@@ -128,15 +128,18 @@ class PlotWidget(QWidget):
         for entry in reversed(self.entries):
             if x_time <= 0:
                 break
-            points.append((x_time, entry.get_color(), entry.get_text()))
+            if entry.get_special():
+                points.append((x_time, 5, entry.get_color(), entry.get_text()))
+            else:
+                points.append((x_time, 0, entry.get_color(), entry.get_text()))
             x_time -= entry.get_delay()
         self.entries = self.entries[-len(points):]
 
         x_previous = None
         label_below = True  # Start with label below
-        for x, color, text in points:
-            self.series.append(x + PlotWidget.X_OFFSET, 0)
-            self.markers[color].append(x + PlotWidget.X_OFFSET, 0)
+        for x, y, color, text in points:
+            self.series.append(x + PlotWidget.X_OFFSET, y)
+            self.markers[color].append(x + PlotWidget.X_OFFSET, y)
 
             label = QGraphicsSimpleTextItem(text)
             label.setBrush(Qt.white)
@@ -151,7 +154,7 @@ class PlotWidget(QWidget):
                 label_below = True
 
             label.setPos(
-                self.chart.mapToPosition(QPointF(x + PlotWidget.X_OFFSET, y_offset))
+                self.chart.mapToPosition(QPointF(x + PlotWidget.X_OFFSET, y + y_offset))
             )
             self.chart.scene().addItem(label)
             x_previous = x
@@ -317,6 +320,7 @@ class Gui(QWidget):
         self.bottom.add(entries)
 
     def add_outputs(self, entries):
+        self.plot.add(entries)
         self.content.add(entries)
 
     def _clear_layout(self, layout):
