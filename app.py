@@ -55,33 +55,28 @@ class Handler(GuiHandler):
             if move.name == name:
                 return move
 
-    def _create_gui_entries(self, original, derived):
-        inputs = []
-        outputs = []
-        for input in original:
+    def _create_gui_entries(self, inputs):
+        entries = []
+        for input in inputs:
             action = input.get_action()
-            inputs.append(GuiEntry(action, input.get_delay(), self._resolve_action_color(action)))
-
-        for input in derived:
-            action = input.get_action()
-            outputs.append(GuiEntry(action, input.get_delay(), self._resolve_action_color(action), special=True))
+            entries.append(GuiEntry(action, input.get_delay(),
+                           self._resolve_action_color(action), special=input.is_derived()))
 
         clear = self.clear
         if self.clear:
             self.clear = False
-        return inputs, outputs, clear, self.running
+        return entries, clear, self.running
 
     def _process_manual(self, ts):
-        original = []
-        derived = []
+        inputs = []
         if input := self.buffer.pop():
-            original.append(input)
+            inputs.append(input)
             for move in self.moves:
                 if move.is_executed(input):
                     self.moves_counter += 1
-                    derived.append(Input(f"[{self.moves_counter}]{move.name}", move.get_accumulated_delay()))
+                    inputs.append(Input(f"[{move.get_accumulated_delay()}]{move.name}", 1, derived=True))
 
-        return self._create_gui_entries(original, derived)
+        return self._create_gui_entries(inputs)
 
     def _process_automated(self, ts):
         if self.automated_input:

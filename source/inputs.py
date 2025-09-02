@@ -2,9 +2,13 @@ import source.utils as utils
 
 
 class Input:
-    def __init__(self, action, delay):
+    def __init__(self, action, delay, derived=False):
         self.action = action
         self.delay = delay
+        self.derived = derived
+
+    def is_derived(self):
+        return self.derived
 
     def get_action(self):
         return self.action

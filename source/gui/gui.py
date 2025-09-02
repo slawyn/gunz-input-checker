@@ -22,8 +22,7 @@ class GuiHandler:
 
 class Worker(QObject):
     finished = pyqtSignal()
-    add_inputs = pyqtSignal(list)  # Additional parameter of type string
-    add_outputs = pyqtSignal(list)  # Additional parameter of type string
+    add_entries = pyqtSignal(list)  # Additional parameter of type string
     clear_scroll_and_bottom = pyqtSignal()  # Additional parameter of type string
 
     def __init__(self, handler):
@@ -33,13 +32,11 @@ class Worker(QObject):
     def run(self):
         while True:
             time.sleep(0.001)
-            inputs, outputs, clear, running = self.handler.run()
+            entries, clear, running = self.handler.run()
             if clear:
                 self.clear_scroll_and_bottom.emit()
-            if inputs:
-                self.add_inputs.emit(inputs)
-            if outputs:
-                self.add_outputs.emit(outputs)
+            if entries:
+                self.add_entries.emit(entries)
             if not running:
                 break
 
@@ -80,7 +77,7 @@ class PlotWidget(QWidget):
         x_axis.setGridLineVisible(True)
 
         y_axis = QValueAxis()
-        y_axis.setRange(-1, 10)
+        y_axis.setRange(-1, 20)
         y_axis.setVisible(False)
 
         # Create chart
@@ -123,41 +120,37 @@ class PlotWidget(QWidget):
             if isinstance(item, QGraphicsSimpleTextItem):
                 self.chart.scene().removeItem(item)
 
+        label_below = True
         points = []
         x_time = PlotWidget.X_WINDOW - PlotWidget.X_OFFSET
         for entry in reversed(self.entries):
             if x_time <= 0:
                 break
             if entry.get_special():
-                points.append((x_time, 5, entry.get_color(), entry.get_text()))
+                points.append((x_time, 20, 40, entry.get_color(), entry.get_text()))
             else:
-                points.append((x_time, 0, entry.get_color(), entry.get_text()))
+                if label_below:
+                    y_label = -5
+                else:
+                    y_label = 5
+
+                points.append((x_time, 0, y_label, entry.get_color(), entry.get_text()))
+
             x_time -= entry.get_delay()
+            if entry.get_delay():
+                label_below = not label_below
+
         self.entries = self.entries[-len(points):]
 
-        x_previous = None
-        label_below = True  # Start with label below
-        for x, y, color, text in points:
+        for x, y, y_label, color, text in points:
             self.series.append(x + PlotWidget.X_OFFSET, y)
             self.markers[color].append(x + PlotWidget.X_OFFSET, y)
 
             label = QGraphicsSimpleTextItem(text)
             label.setBrush(Qt.white)
             label.setFont(QFont("Arial", 8))
-
-            # Position the label, alternating if too close to the previous one
-            if x_previous is not None and abs(x - x_previous) < 20:
-                y_offset = 5 if label_below else -3
-                label_below = not label_below
-            else:
-                y_offset = -3
-                label_below = True
-
-            label.setPos(
-                self.chart.mapToPosition(QPointF(x + PlotWidget.X_OFFSET, y + y_offset))
-            )
+            label.setPos(self.chart.mapToPosition(QPointF(x + PlotWidget.X_OFFSET - 4, y_label)))
             self.chart.scene().addItem(label)
-            x_previous = x
 
 
 class ContentPanel(QWidget):
@@ -301,8 +294,7 @@ class Gui(QWidget):
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.thread.quit)
-        self.worker.add_inputs.connect(self.add_inputs)
-        self.worker.add_outputs.connect(self.add_outputs)
+        self.worker.add_entries.connect(self.add_entries)
         self.worker.clear_scroll_and_bottom.connect(self.clear_scroll_and_bottom)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
@@ -315,13 +307,20 @@ class Gui(QWidget):
         print(x, y, width, height)
         self.setGeometry(x, y, width, height)
 
-    def add_inputs(self, entries):
-        self.plot.add(entries)
-        self.bottom.add(entries)
+    def add_entries(self, entries):
+        specials = []
+        normals = []
+        for entry in entries:
+            if entry.get_special():
+                specials.append(entry)
+            else:
+                normals.append(entry)
 
-    def add_outputs(self, entries):
         self.plot.add(entries)
-        self.content.add(entries)
+        if normals:
+            self.bottom.add(normals)
+        if specials:
+            self.content.add(specials)
 
     def _clear_layout(self, layout):
         if layout is not None:
