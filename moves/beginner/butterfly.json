@@ -1,5 +1,5 @@
 {
-    "Butterfly": [
+    "BF": [
         {
             "input": "J"
         },
@@ -13,7 +13,7 @@
             "input": "B"
         }
     ],
-    "Butterfly[←]": [
+    "BF[←]": [
         {
             "input": "J"
         },
@@ -35,7 +35,7 @@
             "input": "B"
         }
     ],
-    "Butterfly[↑]": [
+    "BF[↑]": [
         {
             "input": "J"
         },
@@ -57,7 +57,7 @@
             "input": "B"
         }
     ],
-    "Butterfly[↓]": [
+    "BF[↓]": [
         {
             
             "input": "J"
@@ -80,7 +80,7 @@
             "input": "B"
         }
     ],
-    "Butterfly[→]": [
+    "BF[→]": [
         {
             
             "input": "J"
@@ -104,7 +104,7 @@
             "input": "B"
         }
     ],
-    "2x.Butterfly": [
+    "2x.BF": [
         {
             
             "input": "J"
@@ -128,7 +128,7 @@
             "input": "B"
         }
     ],
-    "3x.Butterfly": [
+    "3x.BF": [
         {
             
             "input": "J"

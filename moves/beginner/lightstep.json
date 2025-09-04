@@ -1,5 +1,5 @@
 {
-    "Lightstep[↓]": [
+    "LS[↓]": [
         {
             
             "input": "J"
@@ -17,7 +17,7 @@
             "input": "A"
         }
     ],
-    "Lightstep[→]": [
+    "LS[→]": [
         {
             
             "input": "J"
@@ -35,7 +35,7 @@
             "input": "A"
         }
     ],
-    "Lightstep[←]": [
+    "LS[←]": [
         {
             
             "input": "J"
@@ -53,7 +53,7 @@
             "input": "A"
         }
     ],
-    "Lightstep[↑]": [
+    "LS[↑]": [
         {
             
             "input": "J"

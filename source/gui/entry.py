@@ -1,8 +1,9 @@
 class GuiEntry:
-    def __init__(self, text, delay, color, special=False):
+    def __init__(self, text, delay, color, acolor, special=False):
         self.delay = delay
         self.text = text
         self.color = color
+        self.acolor = acolor
         self.special = special
 
     def get_special(self):
@@ -10,6 +11,9 @@ class GuiEntry:
 
     def get_color(self):
         return self.color
+
+    def get_acolor(self):
+        return self.acolor
 
     def get_text(self):
         return self.text

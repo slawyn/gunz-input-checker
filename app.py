@@ -11,9 +11,10 @@ import source.utils as utils
 
 
 class Mapped:
-    def __init__(self, action, color):
+    def __init__(self, action, color, acolor):
         self.action = action
         self.color = color
+        self.acolor = acolor
 
     def get_action(self):
         return self.action
@@ -21,12 +22,16 @@ class Mapped:
     def get_color(self):
         return self.color
 
+    def get_acolor(self):
+        return self.acolor
+
 
 class Handler(GuiHandler):
     def __init__(self, map, moves):
         self.running = True
         self.key2action_map = {k: v.get_action() for k, v in map.items()}
         self.action2color_map = {v.get_action(): v.get_color() for v in map.values()}
+        self.action2acolor_map = {v.get_action(): v.get_acolor() for v in map.values()}
         self.action2key_map = {v.get_action(): k for k, v in map.items()}
         self.moves = moves
         self.buffer = InputBuffer()
@@ -50,6 +55,11 @@ class Handler(GuiHandler):
             return self.action2color_map[action]
         return "#19EEE7"
 
+    def _resolve_action_acolor(self, action):
+        if action in self.action2acolor_map:
+            return self.action2acolor_map[action]
+        return "#FFFFFF"
+
     def _find_move(self, name):
         for move in self.moves:
             if move.name == name:
@@ -60,7 +70,7 @@ class Handler(GuiHandler):
         for input in inputs:
             action = input.get_action()
             entries.append(GuiEntry(action, input.get_delay(),
-                           self._resolve_action_color(action), special=input.is_derived()))
+                           self._resolve_action_color(action), self._resolve_action_acolor(action), special=input.is_derived()))
 
         clear = self.clear
         if self.clear:
@@ -155,18 +165,18 @@ def load_moves(filenames):
 
 if __name__ == "__main__":
     mappings = {
-        "w": Mapped("↑", "#FF9000"),
-        "a": Mapped("←", "#FF9000"),
-        "s": Mapped("↓", "#FF9000"),
-        "d": Mapped("→", "#FF9000"),
-        "e": Mapped("W1", "#036FFC"),
-        "q": Mapped("W2", "#1100FF"),
-        keyboard.Key.space: Mapped("R", "#FF1500"),
-        keyboard.Key.caps_lock: Mapped("S", "#FFFFFF"),
-        mouse.Button.left: Mapped("A", "#00A31B"),
-        mouse.Button.right: Mapped("J", "#FF00AA"),
-        mouse.Button.x2: Mapped("B", "#A7A7A7"),
-        mouse.Button.middle: Mapped("G", "#D268FF"),
+        "w": Mapped("↑", "#FFAA00", "#000000"),
+        "a": Mapped("←", "#FFAA00", "#000000"),
+        "s": Mapped("↓", "#FFAA00", "#000000"),
+        "d": Mapped("→", "#FFAA00", "#000000"),
+        "e": Mapped("W1", "#036FFC", "#FFFFFF"),
+        "q": Mapped("W2", "#00B3FF", "#FFFFFF"),
+        keyboard.Key.space: Mapped("R", "#FF1500", "#FFFFFF"),
+        keyboard.Key.caps_lock: Mapped("S", "#302B2B", "#FFFFFF"),
+        mouse.Button.left: Mapped("A", "#00A31B", "#FFFFFF"),
+        mouse.Button.right: Mapped("J", "#FF00AA", "#FFFFFF"),
+        mouse.Button.x2: Mapped("B", "#A7A7A7", "#000000"),
+        mouse.Button.middle: Mapped("G", "#D268FF", "#FFFFFF"),
     }
 
     # Start keyboard and mouse listeners in separate threads

@@ -1,5 +1,5 @@
 {
-    "Flashstep[↓]": [
+    "FS[↓]": [
         {
             
             "input": "J"
@@ -25,7 +25,7 @@
             "input": "S"
         }
     ],
-    "Flashstep[↑]": [
+    "FS[↑]": [
         {
             
             "input": "J"
@@ -51,7 +51,7 @@
             "input": "S"
         }
     ],
-    "Flashstep[←]": [
+    "FS[←]": [
         {
             
             "input": "J"
@@ -77,7 +77,7 @@
             "input": "S"
         }
     ],
-    "Flashstep[→]": [
+    "FS[→]": [
         {
             
             "input": "J"
@@ -103,7 +103,7 @@
             "input": "S"
         }
     ],
-    "x.Flashstep[↓]": [
+    "x.FS[↓]": [
         {
             
             "input": "J"
@@ -129,7 +129,7 @@
             "input": "S"
         }
     ],
-    "x.Flashstep[↑]": [
+    "x.FS[↑]": [
         {
             
             "input": "J"
@@ -155,7 +155,7 @@
             "input": "S"
         }
     ],
-    "x.Flashstep[←]": [
+    "x.FS[←]": [
         {
             
             "input": "J"
@@ -181,7 +181,7 @@
             "input": "S"
         }
     ],
-    "x.Flashstep[→]": [
+    "x.FS[→]": [
         {
             
             "input": "J"

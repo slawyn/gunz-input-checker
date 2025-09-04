@@ -22,7 +22,7 @@ class GuiHandler:
 
 class Worker(QObject):
     finished = pyqtSignal()
-    add_entries = pyqtSignal(list)  # Additional parameter of type string
+    add = pyqtSignal(list)  # Additional parameter of type string
     clear_scroll_and_bottom = pyqtSignal()  # Additional parameter of type string
 
     def __init__(self, handler):
@@ -36,7 +36,7 @@ class Worker(QObject):
             if clear:
                 self.clear_scroll_and_bottom.emit()
             if entries:
-                self.add_entries.emit(entries)
+                self.add.emit(entries)
             if not running:
                 break
 
@@ -45,7 +45,7 @@ class Worker(QObject):
 
 class PlotWidget(QWidget):
     X_WINDOW = 3000.0
-    X_OFFSET = -10
+    X_OFFSET = -30
 
     def __init__(self, parent=None, colors=None):
         super().__init__(parent)
@@ -59,7 +59,7 @@ class PlotWidget(QWidget):
         for _color in colors:
             s = QScatterSeries()
             color = QColor(_color)
-            s.setMarkerSize(8)
+            s.setMarkerSize(16)
             s.setMarkerShape(QScatterSeries.MarkerShapeRectangle)
             s.setColor(color)
             s.setBrush(QBrush(color))
@@ -77,7 +77,7 @@ class PlotWidget(QWidget):
         x_axis.setGridLineVisible(True)
 
         y_axis = QValueAxis()
-        y_axis.setRange(-1, 20)
+        y_axis.setRange(-20, 100)
         y_axis.setVisible(False)
 
         # Create chart
@@ -100,8 +100,8 @@ class PlotWidget(QWidget):
 
         chart_view = QChartView(self.chart)
         chart_view.setStyleSheet("background: transparent;")
-        chart_view.setFixedHeight(50)
-        chart_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        chart_view.setFixedHeight(150)
+        chart_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -120,36 +120,36 @@ class PlotWidget(QWidget):
             if isinstance(item, QGraphicsSimpleTextItem):
                 self.chart.scene().removeItem(item)
 
-        label_below = True
         points = []
-        x_time = PlotWidget.X_WINDOW - PlotWidget.X_OFFSET
+        x = PlotWidget.X_WINDOW - PlotWidget.X_OFFSET
+        d = 0
         for entry in reversed(self.entries):
-            if x_time <= 0:
+            d = entry.get_delay()
+            if x <= PlotWidget.X_OFFSET:
                 break
             if entry.get_special():
-                points.append((x_time, 20, 40, entry.get_color(), entry.get_text()))
+                points.append((d, x, x-8, 0, 0+30, entry.get_color(), entry.get_acolor(), entry.get_text()))
             else:
-                if label_below:
-                    y_label = -5
-                else:
-                    y_label = 5
+                points.append((d, x, x-8, 0, 0+10, entry.get_color(), entry.get_acolor(), entry.get_text()))
 
-                points.append((x_time, 0, y_label, entry.get_color(), entry.get_text()))
-
-            x_time -= entry.get_delay()
-            if entry.get_delay():
-                label_below = not label_below
+            x -= d
 
         self.entries = self.entries[-len(points):]
 
-        for x, y, y_label, color, text in points:
-            self.series.append(x + PlotWidget.X_OFFSET, y)
-            self.markers[color].append(x + PlotWidget.X_OFFSET, y)
+        y_offset = 0
+        for d, x, x_label, y, y_label, color, acolor, text in points:
+            if d < 30:
+                y_offset += 30
+            else:
+                y_offset = 0
+            self.series.append(x + PlotWidget.X_OFFSET, y + y_offset)
+            self.markers[color].append(x + PlotWidget.X_OFFSET, y + y_offset)
 
             label = QGraphicsSimpleTextItem(text)
-            label.setBrush(Qt.white)
+            label.setBrush(QBrush(QColor(acolor)))
             label.setFont(QFont("Arial", 8))
-            label.setPos(self.chart.mapToPosition(QPointF(x + PlotWidget.X_OFFSET - 4, y_label)))
+
+            label.setPos(self.chart.mapToPosition(QPointF(x_label + PlotWidget.X_OFFSET, y_label + y_offset)))
             self.chart.scene().addItem(label)
 
 
@@ -162,38 +162,19 @@ class ContentPanel(QWidget):
         self.setLayout(self.layout)
         self.max_rows = 10
 
-    def add(self, specials):
-        self.last_add_time = QDateTime.currentDateTime()
-        layout = QHBoxLayout()
-        layout.setAlignment(Qt.AlignLeft)
-        for entry in specials:
-            widget = RectangleWidget(entry.get_text(), entry.get_subtext(), self, is_red=True)
-            layout.addWidget(widget)
-        self.layout.addLayout(layout)
+    def add(self, entries):
+        if entries:
+            layout = QHBoxLayout()
+            layout.setAlignment(Qt.AlignLeft)
+            for entry in entries:
+                widget = RectangleWidget(entry.get_text(), entry.get_subtext(), self, is_red=True)
+                layout.addWidget(widget)
+            self.layout.addLayout(layout)
 
-        while self.layout.count() > self.max_rows:
-            self.remove_row(0)
+            while self.layout.count() > self.max_rows:
+                self.remove(0)
 
-    def fade_and_remove_row(self, index):
-        item = self.layout.itemAt(index)
-        if item:
-            row_layout = item.layout()
-            if row_layout:
-                for i in range(row_layout.count()):
-                    widget = row_layout.itemAt(i).widget()
-                    if widget:
-                        effect = QGraphicsOpacityEffect(widget)
-                        widget.setGraphicsEffect(effect)
-                        animation = QPropertyAnimation(effect, b"opacity")
-                        animation.setDuration(1000)
-                        animation.setStartValue(1)
-                        animation.setEndValue(0)
-                        animation.setEasingCurve(QEasingCurve.OutQuad)
-                        animation.finished.connect(widget.deleteLater)
-                        animation.start()
-                self.layout.takeAt(index)
-
-    def remove_row(self, index):
+    def remove(self, index):
         item = self.layout.takeAt(index)
         if item:
             row_layout = item.layout()
@@ -206,54 +187,26 @@ class ContentPanel(QWidget):
 
 
 class BottomPanel(QWidget):
-    def __init__(self, parent, content_panel):
+    def __init__(self, parent):
         super().__init__(parent)
-        self.content_panel = content_panel
         self.layout = QHBoxLayout(self)
         self.layout.setAlignment(Qt.AlignLeft)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.layout)
 
-        self.last_add_time = QDateTime.currentDateTime()
-        self.inactivity_timer = QTimer(self)
-        self.inactivity_timer.timeout.connect(self.check_inactivity)
-        self.inactivity_timer.start(1000)  # Check every second
-
     def add(self, entries):
-        self.last_add_time = QDateTime.currentDateTime()
-        for entry in entries:
-            widget = RectangleWidget(entry.get_text(), entry.get_subtext(), self)
-            self.layout.addWidget(widget)
+        if entries:
+            for entry in entries:
+                widget = RectangleWidget(entry.get_text(), entry.get_subtext(), self)
+                self.layout.addWidget(widget)
 
-        count = self.layout.count()
-        if count > Gui.MAX_WIDGET_COUNT:
-            for i in range(count - Gui.MAX_WIDGET_COUNT):
-                self.remove_widget(0)
+            count = self.layout.count()
+            if count > Gui.MAX_WIDGET_COUNT:
+                for i in range(count - Gui.MAX_WIDGET_COUNT):
+                    self.remove(0)
 
-    def check_inactivity(self):
-        if self.last_add_time.msecsTo(QDateTime.currentDateTime()) > 3000:
-            if self.layout.count() > 0:
-                self.fade_and_remove_widget(0)
-                self.content_panel.fade_and_remove_row(0)
-
-    def fade_and_remove_widget(self, index):
-        item = self.layout.itemAt(index)
-        if item:
-            widget = item.widget()
-            if widget:
-                effect = QGraphicsOpacityEffect(widget)
-                widget.setGraphicsEffect(effect)
-                animation = QPropertyAnimation(effect, b"opacity")
-                animation.setDuration(1000)
-                animation.setStartValue(1)
-                animation.setEndValue(0)
-                animation.setEasingCurve(QEasingCurve.OutQuad)
-                animation.finished.connect(widget.deleteLater)
-                animation.start()
-                self.layout.takeAt(index)
-
-    def remove_widget(self, index):
+    def remove(self, index):
         item = self.layout.takeAt(index)
         if item:
             widget = item.widget()
@@ -283,7 +236,7 @@ class Gui(QWidget):
         self.content = ContentPanel(self)
         self.main.addWidget(self.content, 8)
 
-        self.bottom = BottomPanel(self, self.content)
+        self.bottom = BottomPanel(self)
         self.main.addWidget(self.bottom, 1)
 
         self.plot = PlotWidget(self, colors)
@@ -294,11 +247,21 @@ class Gui(QWidget):
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.thread.quit)
-        self.worker.add_entries.connect(self.add_entries)
+        self.worker.add.connect(self.add)
         self.worker.clear_scroll_and_bottom.connect(self.clear_scroll_and_bottom)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.thread.start()
+
+        self.last_add_time = QDateTime.currentDateTime()
+        self.inactivity_timer = QTimer(self)
+        self.inactivity_timer.timeout.connect(self._check_inactivity)
+        self.inactivity_timer.start(1000)  # Check every second
+
+    def _check_inactivity(self):
+        if self.last_add_time.msecsTo(QDateTime.currentDateTime()) > 3000:
+            self.bottom.remove(0)
+            self.content.remove(0)
 
     def _set_size(self):
         sg = QApplication.screens()[0].geometry()
@@ -307,7 +270,9 @@ class Gui(QWidget):
         print(x, y, width, height)
         self.setGeometry(x, y, width, height)
 
-    def add_entries(self, entries):
+    def add(self, entries):
+        self.last_add_time = QDateTime.currentDateTime()
+
         specials = []
         normals = []
         for entry in entries:
@@ -317,10 +282,8 @@ class Gui(QWidget):
                 normals.append(entry)
 
         self.plot.add(entries)
-        if normals:
-            self.bottom.add(normals)
-        if specials:
-            self.content.add(specials)
+        self.bottom.add(normals)
+        self.content.add(specials)
 
     def _clear_layout(self, layout):
         if layout is not None:

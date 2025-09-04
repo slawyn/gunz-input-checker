@@ -1,5 +1,5 @@
 {
-    "Double.Lightstep[→↑]": [
+    "DLS[→↑]": [
         {
            
             "input": "J"
@@ -25,7 +25,7 @@
             "input": "↑"
         }
     ],
-    "Double.Lightstep[→↓]": [
+    "DLS[→↓]": [
         {
            
             "input": "J"
@@ -51,7 +51,7 @@
             "input": "↓"
         }
     ],
-    "Double.Lightstep[→←]": [
+    "DLS[→←]": [
         {
            
             "input": "J"
@@ -77,7 +77,7 @@
             "input": "←"
         }
     ],
-    "Double.Lightstep[←→]": [
+    "DLS[←→]": [
         {
            
             "input": "J"
@@ -103,7 +103,7 @@
             "input": "→"
         }
     ],
-    "Double.Lightstep[←↓]": [
+    "DLS[←↓]": [
         {
            
             "input": "J"
@@ -129,7 +129,7 @@
             "input": "↓"
         }
     ],
-    "Double.Lightstep[←↑]": [
+    "DLS[←↑]": [
         {
            
             "input": "J"
@@ -155,7 +155,7 @@
             "input": "↑"
         }
     ],
-    "Double.Lightstep[↑←]": [
+    "DLS[↑←]": [
         {
            
             "input": "J"
@@ -181,7 +181,7 @@
             "input": "←"
         }
     ],
-    "Double.Lightstep[↑→]": [
+    "DLS[↑→]": [
         {
            
             "input": "J"
@@ -207,7 +207,7 @@
             "input": "→"
         }
     ],
-    "Double.Lightstep[↑↓]": [
+    "DLS[↑↓]": [
         {
            
             "input": "J"
@@ -233,7 +233,7 @@
             "input": "↓"
         }
     ],
-    "Double.Lightstep[↓↑]": [
+    "DLS[↓↑]": [
         {
            
             "input": "J"
@@ -259,7 +259,7 @@
             "input": "↑"
         }
     ],
-    "Double.Lightstep[↓→]": [
+    "DLS[↓→]": [
         {
            
             "input": "J"
@@ -285,7 +285,7 @@
             "input": "→"
         }
     ],
-    "Double.Lightstep[↓←]": [
+    "DLS[↓←]": [
         {
            
             "input": "J"
